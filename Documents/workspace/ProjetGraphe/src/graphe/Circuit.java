@@ -51,7 +51,7 @@ public class Circuit {
 	{
 	  rang = new int[nbSommets];
 	  matriceAdjacente = new int[nbSommets][nbSommets];
-	  deleteSommet = new int[nbSommets];
+	  deleteSommets = new int[nbSommets];
 	}
 
 }
