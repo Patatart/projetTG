@@ -2,6 +2,7 @@ package graphe;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Graphe {
 	
@@ -63,9 +64,39 @@ public class Graphe {
 	public int getNbArcs()    { return arcs.size();    }
 	
 	public static void main( String[] args ) {
-		Graphe graph1 = new Graphe( "graphe2.txt" );
+		// Graphe graph1 = new Graphe( "graphe2.txt" );
 		
+		// pour la lecture des fichiers texte
+		File     dossier  = new File( "donnees/" );
+		String[] fichiers = dossier.list();
 		
+		// pour la lecture de la saisie de l'utilisateur
+		Scanner sc     = new Scanner(System.in);
+		String  saisie = "";
+		
+		System.out.println("Quel fichier voulez-vous ouvrir ?");
+		
+		// affichage de tous les fichiers de donnees/
+		int i = 1;
+		for( String str : fichiers )
+			System.out.println( "\t" + i++ + " : " + str );
+		
+		// boucle sur la saisie de l'utilisateur tant qu'elle n'est pas valide
+		boolean valide = false;
+		int ind = 0;
+		while( !valide ) {
+			try {
+				System.out.print("\nN° du fichier à ouvrir : ");
+				saisie = sc.nextLine();
+				ind = Integer.parseInt(saisie) - 1;
+				System.out.println( fichiers[ind] + "\n" );
+				valide = true;
+			}
+			catch( Exception ex ) { System.out.println("Veuillez saisir un entier positif indiqué si dessus."); }
+		}
+		
+		// creation et lecture du graphe
+		Graphe graphe = new Graphe( fichiers[ind] );
 	}
 
 }
