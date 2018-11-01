@@ -12,6 +12,10 @@ public class Graphe {
 	// liste des arcs du graphe
 	private ArrayList<Arc> arcs;
 	
+	//Matrices
+	private static MatriceAdjacenteClasse matAdj;
+	private static MatriceArcs matArcs;
+	
 	/**
 	 * Construction du graphe a partir du fichier
 	 * @param nomFichier nom du fichier a traiter
@@ -36,6 +40,16 @@ public class Graphe {
 			for( int i = 0; i < nbSommets; i++ )
 				sommets.add( new Sommet(i) );
 			
+			//CrÃ©ation et initialisation des matrices
+			String[][] matriceAdjacenteTab = new String[nbSommets][nbSommets];
+			String[][] matriceArcs = new String[nbSommets][nbSommets];
+			
+			matAdj = new MatriceAdjacenteClasse(matriceAdjacenteTab);
+			matArcs = new MatriceArcs(matriceArcs);
+			
+			matAdj.initMatAdj(matriceAdjacenteTab);
+			matArcs.initMatArcs(matriceArcs);
+			
 			// creation des arcs et remplissage des sommets
 			int nbArcs = Integer.parseInt( br.readLine() );
 			System.out.println( nbArcs + " arcs" );
@@ -48,6 +62,10 @@ public class Graphe {
 				sommetTerm = Integer.parseInt( donneesArc[1] );
 				valeur     = Integer.parseInt( donneesArc[2] );
 				nvArc = new Arc( sommetInit, sommetTerm, valeur );
+				
+				//Remplissage des matrices
+				matAdj.remplirMatAdj(matriceAdjacenteTab, sommetInit, sommetTerm, valeur);
+				matArcs.remplirMatArcs(matriceArcs, sommetInit, sommetTerm, valeur);
 				
 				arcs.add(nvArc);
 				sommets.get( nvArc.getSommetInit() ).addArcSortant(nvArc);
@@ -86,17 +104,19 @@ public class Graphe {
 		int ind = 0;
 		while( !valide ) {
 			try {
-				System.out.print("\nN° du fichier à ouvrir : ");
+				System.out.print("\nNÂ° du fichier Ã  ouvrir : ");
 				saisie = sc.nextLine();
 				ind = Integer.parseInt(saisie) - 1;
 				System.out.println( fichiers[ind] + "\n" );
 				valide = true;
 			}
-			catch( Exception ex ) { System.out.println("Veuillez saisir un entier positif indiqué si dessus."); }
+			catch( Exception ex ) { System.out.println("Veuillez saisir un entier positif indiquÃ© si dessus."); }
 		}
 		
 		// creation et lecture du graphe
 		Graphe graphe = new Graphe( fichiers[ind] );
+		matAdj.afficheMatAdj();
+		matArcs.afficheMatArcs();
 	}
 
 }
