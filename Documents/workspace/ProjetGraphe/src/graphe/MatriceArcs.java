@@ -16,18 +16,18 @@ public class MatriceArcs {
 	public void afficheMatArcs()
 	{
 		System.out.println("Valeur des arcs");
-		System.out.print("  ");
+		System.out.print(" " + "\t");
 		for (int j = 0; j < matriceArcsTab.length; j++)
 		{
-			System.out.print(j + " ");
+			System.out.print(j + "\t");
 		}
 		System.out.println("");
 		for (int i = 0; i < matriceArcsTab.length; i++)
 		{
-			System.out.print(i + " ");
+			System.out.print(i + "\t");
 			for (int j = 0; j < matriceArcsTab.length; j++)
 			{
-				System.out.print(matriceArcsTab[i][j] + " ");
+				System.out.print(matriceArcsTab[i][j] + "\t");
 			}
 			System.out.println("");
 		}
