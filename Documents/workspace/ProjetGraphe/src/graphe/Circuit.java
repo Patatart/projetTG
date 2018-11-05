@@ -26,7 +26,7 @@ public class Circuit {
 		return degresInt;
 	}
 	
-	public int[] Rang(int[] degresInt,int[] rang, int nbIteration, int[] deleteSommets)
+	public int[] Rang(int[] degresInt,int[] rang, int nbIteration, int[] deleteSommets, int[][] matriceAdjacente)
 	{
 		System.out.println("Points d'entrée : \n");
 		for(int i = 0; i < degresInt.length;i++)
@@ -36,22 +36,69 @@ public class Circuit {
 				rang[i] = nbIteration;
 				System.out.println(" " + i);
 				deleteSommets[i] = 0;
+				deleteSommet(matriceAdjacente, degresInt.length,i);
 			}
 		}
 		
 		return rang;
 	}
 	
-	public int deleteCont(int[] delete)
+	public int deleteCount(int[] deleteSommets)
 	{
 		int count = 0;
+		for(int i = 0; i < deleteSommets.length; i++)
+		{
+			if(deleteSommets[i] == 0)
+				count++;
+		}
 		return count;
 	}
+	public int[] deleteSommetInit(int[] deleteSommets)
+	{
+		for(int i = 0; i < deleteSommets.length; i++)
+			deleteSommets[i] = 1;
+		return deleteSommets;
+	}
+	
+	public int[][] deleteSommet(int[][] matriceAdjacente, int longueur,int j){
+		for(int i = 0; i < longueur;i++)
+		{
+			matriceAdjacente[j][i] = 0;
+		}
+		return matriceAdjacente;
+	}
+	
 	public Circuit(int nbSommets)
 	{
 	  rang = new int[nbSommets];
 	  matriceAdjacente = new int[nbSommets][nbSommets];
 	  deleteSommets = new int[nbSommets];
+	}
+	
+	public void DetectionCircuit(int nbSommets){
+		affiche();
+		Circuit circuit = new Circuit(nbSommets); // pas forcément utile
+		
+		rang = new int[nbSommets];
+		matriceAdjacente = new int[nbSommets][nbSommets];
+		deleteSommets = new int[nbSommets];
+		int[] degresInt;
+		deleteSommets = deleteSommetInit(deleteSommets);
+		// matrice adjacente
+		int nbIteration = 0;
+		int deleteSommetSuiv;
+		int deleteSommetPrec;
+		
+		do{
+		degresInt = CalculDegresInt(matriceAdjacente, nbSommets);
+		
+	    deleteSommetPrec = deleteCount(deleteSommets);
+		rang = Rang(degresInt,rang, nbIteration,deleteSommets, matriceAdjacente);
+		
+		deleteSommetSuiv = deleteCount(deleteSommets);
+		nbIteration =+ 1;
+		}while(deleteSommetSuiv != deleteSommetPrec );
+		
 	}
 
 }
